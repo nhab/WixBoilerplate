@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Wix", "WixBoilerplate\Wix.wixproj", "{F1597781-2E7E-4741-85A0-2BF8B9057FA6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomAction1", "CustomAction1\CustomAction1.csproj", "{1EC23553-294C-487F-8B0D-741C531F9A75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -15,6 +17,10 @@ Global
 		{F1597781-2E7E-4741-85A0-2BF8B9057FA6}.Debug|x86.Build.0 = Debug|x86
 		{F1597781-2E7E-4741-85A0-2BF8B9057FA6}.Release|x86.ActiveCfg = Release|x86
 		{F1597781-2E7E-4741-85A0-2BF8B9057FA6}.Release|x86.Build.0 = Release|x86
+		{1EC23553-294C-487F-8B0D-741C531F9A75}.Debug|x86.ActiveCfg = Debug|x86
+		{1EC23553-294C-487F-8B0D-741C531F9A75}.Debug|x86.Build.0 = Debug|x86
+		{1EC23553-294C-487F-8B0D-741C531F9A75}.Release|x86.ActiveCfg = Release|x86
+		{1EC23553-294C-487F-8B0D-741C531F9A75}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
