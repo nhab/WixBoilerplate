@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
  <?if $(var.Platform) = x64 ?>
-    <?define PlatformProductName = "02_x86_x64_Installer (x64)" ?>
+    <?define PlatformProductName = "Wix test x86_x64_Installer (x64)" ?>
     <?define PlatformUpgradeCode = "1AB189BA-5B13-4448-A916-4E25B814D2AA" ?>
     <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
   <?else ?>
-    <?define PlatformProductName = "02_x86_x64_Installer (x86)" ?>
+    <?define PlatformProductName = "wix test x86_x64_Installer (x86)" ?>
     <?define PlatformUpgradeCode = "1F633E9D-7F55-449D-8BC9-56F9E72342E8" ?>
     <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
   <?endif ?>
@@ -16,32 +16,101 @@
            UpgradeCode="$(var.PlatformUpgradeCode)"
            Version="1.0.0.0">
 
-    <Package InstallScope="perMachine" Compressed="yes" />
+    <Package
+		InstallScope="perMachine" 
+		Compressed="yes" />
 
-    <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
+    <MajorUpgrade
+		DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
 
-    <MediaTemplate EmbedCab="yes" />
+    <MediaTemplate 
+		EmbedCab="yes" />
 
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="$(var.PlatformProgramFilesFolder)">
-        <Directory Id="INSTALLFOLDER" Name="02_x86_x64_Installer" />
+    <Directory 
+		Id="TARGETDIR"
+		Name="SourceDir">
+      <Directory 
+		  Id="$(var.PlatformProgramFilesFolder)">
+        <Directory 
+			Id="INSTALLFOLDER"
+			Name="02_x86_x64_Installer" />
       </Directory>
     </Directory>
 
-    <ComponentGroup Directory="INSTALLFOLDER" Id="ProductComponentGroup">
-      <Component Id="cmp_FileToInstall.txt" Guid="*">
-        <File KeyPath="yes" Source="f.txt" />
+    <ComponentGroup 
+		Directory="INSTALLFOLDER" 
+		Id="ProductComponentGroup">
+      <Component
+		  Id="cmp_FileToInstall.txt" 
+		  Guid="*">
+        <File 
+			KeyPath="yes"
+			Source="f.txt" />
       </Component>
-      <Component Id="cmp_RegistryEntry" Guid="*">
-        <RegistryKey Root='HKLM' Key='Software\[Manufacturer]\[ProductName]'>
-          <RegistryValue KeyPath='yes' Type='string' Name='Install location' Value='[INSTALLFOLDER]' />
+		
+      <Component 
+		  Id="cmp_RegistryEntry" 
+		  Guid="*">
+        <RegistryKey 
+			Root='HKLM' 
+			Key='Software\[Manufacturer]\[ProductName]'>
+          <RegistryValue 
+			  KeyPath='yes'
+			  Type='string' 
+			  Name='Install location'
+			  Value='[INSTALLFOLDER]' />
         </RegistryKey>
       </Component>
     </ComponentGroup>
 
-    <Feature Id="HelloWorldFeature">
-      <ComponentGroupRef Id="ProductComponentGroup" />
+    <Feature
+		Id="HelloWorldFeature">
+      <ComponentGroupRef
+		  Id="ProductComponentGroup" />
     </Feature>
+	  
+	
+	  <Binary 
+		  Id="myCustomActionsDLL"
+		  SourceFile="D:\root\prjs\github\mine\WixBoilerplate\CustomAction1\bin\Debug\CustomAction1.CA.dll" 
+	/>	  
+	  <CustomAction 
+		  Id="CA_GetTimeZone"
+		 BinaryKey="myCustomActionsDLL"
+		 DllEntry="GetTimeZone"
+		 Execute="immediate"
+		 Return="check" />
+	  
+		<CustomAction
+		 Id="PropertyCustomAction"
+	 	 BinaryKey="myCustomActionsDLL"
+		 DllEntry="CustomAction1"
+		 Execute="immediate"
+		 Return="check" />
+	  <?define p1="?>
+	   <Property Id="myProperty" Value=" " />
+	  <Property Id="myProperty1" Value=" " />
+	  <CustomAction
+		Id="SetProperty"
+		Property="myProperty"
+		Value="p1=[TIME_ZONE]"
+		 />
+	
+	  <CustomAction
+		Id="SetProperty1"
+		Property="myProperty1"
+		Value="p2=[Property1]"
+		 />
+	
+	  <InstallUISequence>
+	    <Custom Action="CA_GetTimeZone" After="LaunchConditions" />
+		<Custom Action="PropertyCustomAction" After="LaunchConditions"/>
+		  <Custom Action="SetProperty" After="LaunchConditions"/>
+		  <Custom Action="SetProperty1" After="LaunchConditions"/>
+	  </InstallUISequence>
+
+	  <UIRef Id="WixUI_Minimal"/>
 
   </Product>
+
 </Wix>
